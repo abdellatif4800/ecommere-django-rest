@@ -11,7 +11,7 @@ urlpatterns = [
     path("removeItemFormCart/", Item_view.as_view()),
     path("changeQuantity/", change_quantity),
     # --------------------------
-    path("getCart/", Cart_view.as_view()),
+    path("getCart/<int:user_id>/", Cart_view.as_view()),
     # --------------------------
 ]
 

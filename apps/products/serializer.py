@@ -1,13 +1,6 @@
 from .models import Product, Image
 from rest_framework import serializers
 from django.utils import timezone
-from drf_spectacular.utils import (
-    extend_schema,
-    extend_schema_serializer,
-    extend_schema_field,
-    OpenApiParameter,
-    OpenApiExample,
-)
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -22,7 +15,6 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class CreateModifyProductSerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Product
         fields = [
@@ -33,16 +25,15 @@ class CreateModifyProductSerializer(serializers.ModelSerializer):
             "category",
             "images",
         ]
+
     images = ImageSerializer(many=True, read_only=True)
 
-
-   
     def create(self, validated_data):
         images = validated_data.pop("images", [])
         product = Product.objects.create(**validated_data)
 
         for image in images:
-            Image.objects.create(product=product, photo=image,name=image.name)
+            Image.objects.create(product=product, photo=image, name=image.name)
         return product
 
     def update(self, instance, validated_data):

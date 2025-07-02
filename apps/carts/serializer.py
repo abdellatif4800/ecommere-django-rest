@@ -1,6 +1,6 @@
 from .models import Cart, Item
-from apps.products.models import Product
-from apps.users.models import User
+from apps.products.serializer import RetriveProductSerializer
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
 
@@ -12,9 +12,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = "__all__"
 
-    product = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), required=True
-    )
+    product = RetriveProductSerializer()
     quantity = serializers.IntegerField()
     item_total = serializers.IntegerField()
 
@@ -39,7 +37,6 @@ class CartSerializer(serializers.ModelSerializer):
     #     return Cart.objects.create(**validated_data)
     #
     def update(self, instance, validated_data):
-
         if "cart_total" in validated_data:
             instance.cart_total = validated_data["cart_total"]
 

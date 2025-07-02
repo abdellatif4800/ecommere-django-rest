@@ -8,6 +8,11 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 import bcrypt
 
+# from apps.orders.serializer import OrderListSerializer
+# from apps.orders.models import OrderList
+# from apps.carts.models import Cart
+# from apps.carts.serializer import CartSerializer
+
 
 class SignInSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -15,9 +20,20 @@ class SignInSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["id", "email", "username", "password"]
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data["username"],
+            email=validated_data["email"],
+            password=validated_data["password"],
+        )
+
+        return user
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

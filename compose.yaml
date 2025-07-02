@@ -46,15 +46,15 @@ services:
       - redis-volume:/data
     mem_limit: 256m
   
-  cloudflared-tunnel:
-    container_name: ecommerce-cloudflared-tunnel
-    image: cloudflare/cloudflared:latest
-    networks:
-      - app-network
-    depends_on:
-      - django-app
-    command: tunnel --url http://django-app:8000
-    mem_limit: 128m
+  # cloudflared-tunnel:
+  #   container_name: ecommerce-cloudflared-tunnel
+  #   image: cloudflare/cloudflared:latest
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - django-app
+  #   command: tunnel --url http://django-app:8000
+  #   mem_limit: 128m
 
   minio-storage:
     image: quay.io/minio/minio
@@ -62,8 +62,8 @@ services:
     networks:
       - app-network
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - 9000
+      - 9001
     environment:
       MINIO_ROOT_USER: user123
       MINIO_ROOT_PASSWORD: pass123123

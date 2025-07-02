@@ -10,30 +10,12 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
-from apps.orders.models import OrderList
-from apps.orders.serializer import OrderListSerializer
-from apps.carts.models import Cart
-from apps.carts.serializer import CartSerializer
 from . import serializer
 
 
-class UserRegiester(APIView):
-    def post(self, request):
-        user = User.objects.create_user(
-            username=request.data["username"],
-            email=request.data["email"],
-            password=request.data["password"],
-        )
-
-        cart = Cart.objects.create(user=user)
-        order = OrderList.objects.create(user=user)
-        return Response(
-            {
-                "user": serializer.UserSerializer(user).data,
-                "cart": CartSerializer(cart).data,
-                "order": OrderListSerializer(order).data,
-            }
-        )
+class UserRegiester(CreateAPIView):
+    serializer_class = serializer.UserSerializer
+    queryset = User.objects.all()
 
 
 class Signin(APIView):

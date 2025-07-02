@@ -1,19 +1,9 @@
-from .models import OrderList, Order
+from .models import Order
 from apps.carts.models import Item
 from apps.products.models import Product
-from apps.users.models import User
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from django.utils import timezone
-
-
-class OrderListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OrderList
-        fields = "__all__"
-
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    orders = serializers.PrimaryKeyRelatedField(
-        queryset=Order.objects.all(), many=True)
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -21,8 +11,7 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
 
-    items = serializers.PrimaryKeyRelatedField(
-        queryset=Item.objects.all(), many=True)
+    items = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all(), many=True)
     order_tota = serializers.IntegerField(read_only=True)
     created_at = serializers.DateTimeField(default=None)
     updated_at = serializers.DateTimeField(default=None)

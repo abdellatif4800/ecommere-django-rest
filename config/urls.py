@@ -20,7 +20,7 @@ urlpatterns = [
     # path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # ------------------------------------
     path("product/", include("apps.products.urls")),
-    # path("cart/", include("apps.carts.urls")),
+    path("cart/", include("apps.carts.urls")),
     # path("order/", include("apps.orders.urls")),
     # path("payment/", include("apps.payment.urls")),
 ]

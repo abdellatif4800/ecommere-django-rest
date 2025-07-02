@@ -9,6 +9,7 @@ class Order_Item(models.Model):
 
 
 class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     items = models.ManyToManyField(Order_Item)
     order_total = models.IntegerField(default=0)
     created_at = models.DateTimeField(null=True)
@@ -40,8 +41,3 @@ class Order(models.Model):
     # *********************
     PAYMENT_METHOD = {CASH_ON_DELIVERY: "cash on delivery", BY_CARD: "by card"}
     payment_method = models.CharField(choices=PAYMENT_METHOD, default=CASH_ON_DELIVERY)
-
-
-class OrderList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    orders = models.ManyToManyField(Order)
